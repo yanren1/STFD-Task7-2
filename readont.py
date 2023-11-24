@@ -5,22 +5,12 @@ from datetime import datetime, timedelta
 
 
 
-# def get_availablePeriod(start_date,available_days, unavailablePeriod):
-#     unavailablePeriods = unavailablePeriod.split(' ')
-#     for p in unavailablePeriods:
-#         P_start_date,P_end_date = p.split('To')
-#         ##TODO
-
-
-
-
-
 def check_date(user_input,start_date,available_days):
 
-    user_start_date = user_input['start_date'].split('-')
+    user_start_date = user_input['startDate'].split('-')
     user_start_date = datetime(int(user_start_date[0]), int(user_start_date[1]), int(user_start_date[2]),)
-    user_num_days = timedelta(days=int(user_input['num_days']))
-    user_shift_days = timedelta(days=int(user_input['max_date_shift']))
+    user_num_days = timedelta(days=int(user_input['numDays']))
+    user_shift_days = timedelta(days=int(user_input['maxDateShift']))
     #
     user_min_start_date = user_start_date - user_shift_days
     user_max_start_date = user_start_date + user_shift_days
@@ -60,26 +50,26 @@ def cottage_offer(user_input):
                  ex:startDate ?start_date ;
                  ex:imageURL ?image.
         
-        FILTER (?num_places >= {user_input['num_people']} &&
-                ?num_bedrooms >= {user_input['num_bedrooms']} &&
-                ?lake_distance <= {user_input['max_lake_distance']} &&
-                ?nearest_city = "{user_input['city']}" &&
-                ?available_days >= {user_input['num_days']} ).
+        FILTER (?num_places >= {user_input['numPeople']} &&
+                ?num_bedrooms >= {user_input['numBedrooms']} &&
+                ?lake_distance <= {user_input['maxLakeDistance']} &&
+                ?nearest_city = "{user_input['nearestCity']}" &&
+                ?available_days >= {user_input['numDays']} ).
     }}
     """
     results = g.query(query, initNs={"": Namespace("http://example.org/cottage#")})
 
-    offer = {'cottage':[],
-             'booker_name':[],
-             'booking_num': [],
+    offer = {'cottageName':[],
+             'bookerName':[],
+             'bookingNum': [],
              'address': [],
              'image': [],
-             'num_places': [],
-             'num_bedrooms': [],
-             'lake_distance': [],
-             'nearest_city': [],
-             'start_date': [],
-             'end_date': [],
+             'numPlaces': [],
+             'numBedrooms': [],
+             'lakeDistance': [],
+             'nearestCity': [],
+             'startDate': [],
+             'endDate': [],
              }
 
     for result in results:
@@ -89,21 +79,21 @@ def cottage_offer(user_input):
             continue
 
         if check_date(user_input,start_date,available_days):
-            tmp_start_date = str(user_input['start_date']).split('-')
-            end_date = datetime(int(tmp_start_date[0]), int(tmp_start_date[1]), int(tmp_start_date[2]),) + timedelta(days=int(user_input['num_days']))
+            tmp_start_date = str(user_input['startDate']).split('-')
+            end_date = datetime(int(tmp_start_date[0]), int(tmp_start_date[1]), int(tmp_start_date[2]),) + timedelta(days=int(user_input['numDays']))
             end_date = f'{str(end_date.year)}-{str(end_date.month)}-{str(end_date.day)}'
-            offer['cottage'].append(cottage.split("#")[-1])
-            offer['booker_name'].append(user_input['name'])
+            offer['cottageName'].append(cottage.split("#")[-1])
+            offer['bookerName'].append(user_input['bookerName'])
             offer['address'].append(str(address))
             offer['image'].append(str(image))
-            offer['num_places'].append(str(num_places))
-            offer['num_bedrooms'].append(str(num_bedrooms))
-            offer['lake_distance'].append(str(lake_distance))
-            offer['nearest_city'].append(str(nearest_city))
-            offer['start_date'].append(str(user_input['start_date']))
-            offer['end_date'].append(str(end_date))
-            booking_num = f'{str(cottage).split("#")[-1]}-{str(user_input["start_date"])}-{str(end_date)}'
-            offer['booking_num'].append(str(booking_num))
+            offer['numPlaces'].append(str(num_places))
+            offer['numBedrooms'].append(str(num_bedrooms))
+            offer['lakeDistance'].append(str(lake_distance))
+            offer['nearestCity'].append(str(nearest_city))
+            offer['startDate'].append(str(user_input['startDate']))
+            offer['endDate'].append(str(end_date))
+            booking_num = f'{str(cottage).split("#")[-1]}-{str(user_input["startDate"])}-{str(end_date)}'
+            offer['bookingNum'].append(str(booking_num))
 
     return offer
 
@@ -114,7 +104,7 @@ def update_ont(resevation):
     g.parse(ontology_file, format="turtle")
     ex = Namespace('http://example.org#')
 
-    cottage_uri = URIRef(f'http://example.org#{resevation["cottage"]}')
+    cottage_uri = URIRef(f'http://example.org#{resevation["cottageName"]}')
 
 
     g.set((cottage_uri, ex.unavailablePeriod, Literal('1')))

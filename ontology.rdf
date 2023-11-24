@@ -1,7 +1,5 @@
 @prefix ex: <http://example.org#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix sswap: <http://sswapmeet.sswap.info/sswap/> .
 
 ex:Cottage1 a ex:Cottage ;
     ex:address "789 Lakeside Dr." ;
@@ -12,7 +10,7 @@ ex:Cottage1 a ex:Cottage ;
     ex:imageURL "http://example.org/images/cottage1.jpg" ;
     ex:nearestCity "Boston" ;
     ex:places 3 ;
-    ex:startDate "2023-03-15" ;
+    ex:startDate "2023-11-15" ;
     ex:unavailablePeriod "0" .
 
 ex:Cottage2 a ex:Cottage ;
@@ -24,8 +22,8 @@ ex:Cottage2 a ex:Cottage ;
     ex:imageURL "http://example.org/images/cottage2.jpg" ;
     ex:nearestCity "Boston" ;
     ex:places 6 ;
-    ex:startDate "2023-03-15" ;
-    ex:unavailablePeriod "0" .
+    ex:startDate "2023-11-15" ;
+    ex:unavailablePeriod "1" .
 
 ex:Cottage3 a ex:Cottage ;
     ex:address "321 Oakwood Ln." ;
@@ -37,7 +35,7 @@ ex:Cottage3 a ex:Cottage ;
     ex:nearestCity "Denver" ;
     ex:places 4 ;
     ex:startDate "2023-05-10" ;
-    ex:unavailablePeriod "" .
+    ex:unavailablePeriod "0" .
 
 ex:Cottage4 a ex:Cottage ;
     ex:address "876 Hillside Ave." ;
@@ -49,7 +47,7 @@ ex:Cottage4 a ex:Cottage ;
     ex:nearestCity "Dallas" ;
     ex:places 3 ;
     ex:startDate "2023-06-25" ;
-    ex:unavailablePeriod "" .
+    ex:unavailablePeriod "0" .
 
 ex:Cottage5 a ex:Cottage ;
     ex:address "543 Riverside Rd." ;
@@ -61,7 +59,7 @@ ex:Cottage5 a ex:Cottage ;
     ex:nearestCity "Phoenix" ;
     ex:places 5 ;
     ex:startDate "2023-07-12" ;
-    ex:unavailablePeriod "" .
+    ex:unavailablePeriod "0" .
 
 ex:Cottage6 a ex:Cottage ;
     ex:address "234 Meadowview Pl." ;
@@ -73,5 +71,5 @@ ex:Cottage6 a ex:Cottage ;
     ex:nearestCity "San Diego" ;
     ex:places 2 ;
     ex:startDate "2023-08-03" ;
-    ex:unavailablePeriod "" .
+    ex:unavailablePeriod "0" .
 
