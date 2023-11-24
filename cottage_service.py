@@ -7,14 +7,13 @@ cottage_service = Flask(__name__)
 
 
 @cottage_service.route('/cottageServices/getAvailableCottage', methods=['GET'])
-def send_rdg():
+def searchCottage_rdg():
     file_path = 'checkavailable.rdf'
     g = Graph()
     g.parse(file_path, format='n3')
     rdg = g.serialize(format='n3')
     response = Response(rdg)
     return response
-
 
 @cottage_service.route('/cottageServices/getAvailableCottage', methods=['POST'])
 def searchCottage():
@@ -28,14 +27,25 @@ def searchCottage():
     response = Response(rrg)
     return response
 
+@cottage_service.route('/cottageServices/bookCottage', methods=['GET'])
+def bookCottage_rdg():
+    file_path = 'bookcottage.rdf'
+    g = Graph()
+    g.parse(file_path, format='n3')
+    rdg = g.serialize(format='n3')
+    response = Response(rdg)
+    return response
 
+@cottage_service.route('/cottageServices/bookCottage', methods=['POST'])
+def bookCottage():
+    rig = request.get_data(as_text=True)
+    choosen_offer = read_rig(rig)
 
-
-
-
-
-
-
+    update_ont(choosen_offer)
+    status = {'BookingStatus':'1'}
+    rrg = fill_rrg(rig,status)
+    response = Response(rrg)
+    return response
 
 
 

@@ -13,14 +13,12 @@ def fill_rig(form_data,rdg):
             break
 
     cottage_namespace = Namespace("http://example.org/cottage/")
-
     for key, value in form_data.items():
-            # 检查键是否在 Cottage 的属性中
+            # check keys in Cottage ontology
             if hasattr(cottage_namespace, key):
                 for s, p, o in g.triples((has_mapping_node, getattr(cottage_namespace, key), None)):
                     g.remove((s, p, o))
                     g.add((s, p, Literal(value)))
-
 
     rig = g.serialize(format='n3')
 
@@ -49,12 +47,10 @@ def read_rig(rig):
     for row in results:
         key = str(row['propertyName'])
         if "http://example.org/cottage/" in key:
-
             key = key.split("/")[-1]
             value = str(row['propertyValue'])
 
             user_input[key] = value
-
         else:
             continue
 
@@ -95,7 +91,7 @@ def fill_rrg(rig,offer):
         else:
             new_maps_to_node = BNode()
             g.add((new_maps_to_node, RDF.type, sswap.Object))
-            g.add((new_maps_to_node, RDF.type, cottage.offers))  # 添加 cottage:offers 类型
+            g.add((new_maps_to_node, RDF.type, cottage.offers))  # add cottage:offers
 
             for key in keys:
                 g.add((new_maps_to_node, getattr(cottage, key), Literal(offer[key][i])))

@@ -4,36 +4,29 @@
 @prefix resource: <http://example.org/cottageServices/> .
 @prefix cottage: <http://example.org/cottage/> .
 
-resource:getAvailableCottage rdfs:type sswap:Resource, cottage:CottageCheckService;
+resource:bookCottage rdfs:type sswap:Resource, cottage:CottageBookService;
     sswap:providedBy resource:resourceProvider;
-    sswap:name "Cottage Check Service";
-    sswap:oneLineDescription "A service to check all available cottages";
+    sswap:name "Cottage Booking Service";
+    sswap:oneLineDescription "A service to book available cottages";
     sswap:operatesOn [
         rdfs:type sswap:Graph;
         sswap:hasMapping [
-            rdfs:type sswap:Subject, cottage:CottageInfo;
+            rdfs:type sswap:Subject, cottage:Offers;
+            cottage:cottageName ""^^xsd:string;
             cottage:bookerName ""^^xsd:string;
-            cottage:startDate ""^^xsd:string;
-            cottage:numDays ""^^xsd:string;
-            cottage:maxDateShift ""^^xsd:string;
-            cottage:numPeople ""^^xsd:string;
+            cottage:bookingNum ""^^xsd:string;
+            cottage:address ""^^xsd:string;
+            cottage:image ""^^xsd:string;
+            cottage:numPlaces ""^^xsd:string;
             cottage:numBedrooms ""^^xsd:string;
-            cottage:nearestCity ""^^xsd:string;
-            cottage:maxLakeDistance ""^^xsd:string;
-            cottage:maxCityDistance ""^^xsd:string;
+            cottage:lakeDistance ""^^xsd:string ;
+            cottage:nearestCity ""^^xsd:string ;
+            cottage:startDate ""^^xsd:string ;
+            cottage:endDate ""^^xsd:string ;
+
             sswap:mapsTo [
                 rdfs:type sswap:Object, cottage:Offers;
-                cottage:cottageName ""^^xsd:string;
-                cottage:bookerName ""^^xsd:string;
-                cottage:bookingNum ""^^xsd:string;
-                cottage:address ""^^xsd:string;
-                cottage:image ""^^xsd:string;
-                cottage:numPlaces ""^^xsd:string;
-                cottage:numBedrooms ""^^xsd:string;
-                cottage:lakeDistance ""^^xsd:string ;
-                cottage:nearestCity ""^^xsd:string ;
-                cottage:startDate ""^^xsd:string ;
-                cottage:endDate ""^^xsd:string ;
+                cottage:BookingStatus ""^^xsd:string;
             ]
         ]
     ].

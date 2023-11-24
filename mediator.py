@@ -9,7 +9,7 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def form_client():
     book_info = {}
-    target_url = "http://127.0.0.1:5001/cottageServices/getAvailableCottage"
+
     if request.method == 'POST':
         book_info['bookerName'] = str(request.form['bookerName'])
         book_info['numPeople'] = str(request.form['numPeople'])
@@ -21,11 +21,14 @@ def form_client():
         book_info['startDate'] = str(request.form['startDate'])
         book_info['maxDateShift'] = int(request.form['maxDateShift'])
 
+
+        target_url = "http://127.0.0.1:5001/cottageServices/getAvailableCottage"
         rdg = requests.get(target_url).text
         rig = fill_rig(book_info,rdg)
 
         rrg = requests.post(target_url, data=rig, headers={"Content-Type": "text/turtle"}).text
         offer_dict = {'offer':read_rrg(rrg)}
+
         return redirect(url_for('offers', **offer_dict))
 
 
@@ -46,8 +49,23 @@ def choose_reservation():
     i, data = choose_button.split('|')
     offer = ast.literal_eval(data)
     choosen_offer = {k:offer[k][int(i)] for k in offer.keys()}
-    update_ont(choosen_offer)
-    return render_template('result.html', data=offer, i = int(i))
+
+
+    target_url = "http://127.0.0.1:5001/cottageServices/bookCottage"
+    rdg = requests.get(target_url).text
+
+    rig = fill_rig(choosen_offer, rdg)
+    rrg = requests.post(target_url, data=rig, headers={"Content-Type": "text/turtle"}).text
+
+    status = read_rrg(rrg)
+    status = status['BookingStatus'][0]
+
+
+    if status==1:
+        # update_ont(choosen_offer)
+        return render_template('result.html', data=offer, i = int(i))
+    else:
+        return render_template('result.html', data=offer, i=int(i))
 
 if __name__ == '__main__':
     app.run(port=5000)
